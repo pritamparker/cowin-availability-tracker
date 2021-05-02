@@ -93,14 +93,48 @@ class Dashboard extends React.Component {
       });
   };
   _getDataByPinLoader = () => {
-    this.setState({ is_loading: true, availableCenters: [] }, () => {
-      this._getDataByPin();
-    });
+    if (
+      this.state.pin_code == "" ||
+      this.state.pin_code == undefined ||
+      this.state.pin_code == null
+    ) {
+      alert("Please Enter Valid Pin Code ");
+    } else if (
+      this.state.age == "" ||
+      this.state.age == undefined ||
+      this.state.age == null
+    ) {
+      alert("Please Enter Valid Age");
+    } else {
+      this.setState({ is_loading: true, availableCenters: [] }, () => {
+        this._getDataByPin();
+      });
+    }
   };
   _getDataByDistrictLoader = () => {
-    this.setState({ is_loading: true, availableCenters: [] }, () => {
-      this._getDataByDistrict();
-    });
+    if (
+      this.state.selectedState == "" ||
+      this.state.selectedState == undefined ||
+      this.state.selectedState == null
+    ) {
+      alert("Please Choose State");
+    } else if (
+      this.state.selectedDistrict == "" ||
+      this.state.selectedDistrict == undefined ||
+      this.state.selectedDistrict == null
+    ) {
+      alert("Please Choose District");
+    } else if (
+      this.state.age == "" ||
+      this.state.age == undefined ||
+      this.state.age == null
+    ) {
+      alert("Please Enter Valid Age");
+    } else {
+      this.setState({ is_loading: true, availableCenters: [] }, () => {
+        this._getDataByDistrict();
+      });
+    }
   };
   _getDataByPin = async () => {
     let _data = [];
@@ -120,6 +154,7 @@ class Dashboard extends React.Component {
                         date: date_item,
                         name: center["name"],
                         district_name: center["district_name"],
+                        pincode: center["pincode"],
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
                         vaccine:
@@ -154,6 +189,7 @@ class Dashboard extends React.Component {
                         date: date_item,
                         name: center["name"],
                         district_name: center["district_name"],
+                        pincode: center["pincode"],
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
                         vaccine:
@@ -372,6 +408,7 @@ class Dashboard extends React.Component {
                           <TableCell align="center">Date</TableCell>
                           <TableCell align="center">Name</TableCell>
                           <TableCell align="center">District Name</TableCell>
+                          <TableCell align="center">Pin Code</TableCell>
                           <TableCell align="center">
                             Available Capacity
                           </TableCell>
@@ -388,6 +425,9 @@ class Dashboard extends React.Component {
                               <TableCell align="center">{row.name}</TableCell>
                               <TableCell align="center">
                                 {row.district_name}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.pincode}
                               </TableCell>
                               <TableCell align="center">
                                 {row.available_capacity}

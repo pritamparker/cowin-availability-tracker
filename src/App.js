@@ -106,7 +106,7 @@ export default function Pricing() {
             noWrap
             className={classes.toolbarTitle}
           >
-            Covid Vaccine Tracker
+            Covid Vaccine Availiblity
           </Typography>
           <Button variant="contained" color="primary">
             Github
