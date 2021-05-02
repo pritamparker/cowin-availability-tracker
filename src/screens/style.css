@@ -1,0 +1,56 @@
+.heroContent {
+  padding: 50px;
+}
+.root {
+  flex-grow: 1;
+}
+.active {
+  background-color: #6314d1;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.toggle {
+  background-color: #ccc;
+  color: #000;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.toggle:hover {
+  background-color: #ccc;
+  font-weight: bold;
+  color: #6314d1;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.ml-2 {
+  margin-left: 20px;
+}
+.formInput {
+  min-width: 100px !important;
+}
+.tableContianer {
+  min-width: 650px;
+}
+@media screen and (min-width: 800px) {
+  .formInput {
+    margin: 1px !important;
+    min-width: 100px !important;
+    margin-left: 10px !important;
+  }
+  .buttonControl {
+    margin-top: 10px !important;
+    margin-left: 5px !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .mt {
+    margin-top: 20px !important;
+  }
+}
