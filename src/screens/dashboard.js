@@ -230,7 +230,7 @@ class Dashboard extends React.Component {
             gutterBottom
           >
             <span style={{ color: "green" }}>
-              Search for Vaccine Availiblity
+              Search for Vaccine Availability
             </span>
           </Typography>
           <Typography
