@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import "./style.css";
-import { Box, Button, Grid, TextField } from "@material-ui/core";
+import { Button, Grid, TextField } from "@material-ui/core";
 import axios from "axios";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -94,15 +94,15 @@ class Dashboard extends React.Component {
   };
   _getDataByPinLoader = () => {
     if (
-      this.state.pin_code == "" ||
-      this.state.pin_code == undefined ||
-      this.state.pin_code == null
+      this.state.pin_code === "" ||
+      this.state.pin_code === undefined ||
+      this.state.pin_code === null
     ) {
       alert("Please Enter Valid Pin Code ");
     } else if (
-      this.state.age == "" ||
-      this.state.age == undefined ||
-      this.state.age == null
+      this.state.age === "" ||
+      this.state.age === undefined ||
+      this.state.age === null
     ) {
       alert("Please Enter Valid Age");
     } else {
@@ -113,21 +113,21 @@ class Dashboard extends React.Component {
   };
   _getDataByDistrictLoader = () => {
     if (
-      this.state.selectedState == "" ||
-      this.state.selectedState == undefined ||
-      this.state.selectedState == null
+      this.state.selectedState === "" ||
+      this.state.selectedState === undefined ||
+      this.state.selectedState === null
     ) {
       alert("Please Choose State");
     } else if (
-      this.state.selectedDistrict == "" ||
-      this.state.selectedDistrict == undefined ||
-      this.state.selectedDistrict == null
+      this.state.selectedDistrict === "" ||
+      this.state.selectedDistrict === undefined ||
+      this.state.selectedDistrict === null
     ) {
       alert("Please Choose District");
     } else if (
-      this.state.age == "" ||
-      this.state.age == undefined ||
-      this.state.age == null
+      this.state.age === "" ||
+      this.state.age === undefined ||
+      this.state.age === null
     ) {
       alert("Please Enter Valid Age");
     } else {
@@ -158,7 +158,7 @@ class Dashboard extends React.Component {
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
                         vaccine:
-                          session["vaccine"] != "" ? session["vaccine"] : "",
+                          session["vaccine"] !== "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
@@ -193,7 +193,7 @@ class Dashboard extends React.Component {
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
                         vaccine:
-                          session["vaccine"] != "" ? session["vaccine"] : "",
+                          session["vaccine"] !== "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
