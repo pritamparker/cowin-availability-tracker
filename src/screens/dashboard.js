@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import "./style.css";
-import { Button, Grid, TextField } from "@material-ui/core";
+import { Box, Button, Grid, TextField } from "@material-ui/core";
 import axios from "axios";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -32,6 +32,7 @@ class Dashboard extends React.Component {
       selectedDistrict: "",
       availableCenters: [],
       is_loading: false,
+      is_data_not_available: false,
     };
 
     this.dateArray = [];
@@ -106,9 +107,16 @@ class Dashboard extends React.Component {
     ) {
       alert("Please Enter Valid Age");
     } else {
-      this.setState({ is_loading: true, availableCenters: [] }, () => {
-        this._getDataByPin();
-      });
+      this.setState(
+        {
+          is_loading: true,
+          availableCenters: [],
+          is_data_not_available: false,
+        },
+        () => {
+          this._getDataByPin();
+        }
+      );
     }
   };
   _getDataByDistrictLoader = () => {
@@ -131,9 +139,16 @@ class Dashboard extends React.Component {
     ) {
       alert("Please Enter Valid Age");
     } else {
-      this.setState({ is_loading: true, availableCenters: [] }, () => {
-        this._getDataByDistrict();
-      });
+      this.setState(
+        {
+          is_loading: true,
+          availableCenters: [],
+          is_data_not_available: false,
+        },
+        () => {
+          this._getDataByDistrict();
+        }
+      );
     }
   };
   _getDataByPin = async () => {
@@ -169,7 +184,11 @@ class Dashboard extends React.Component {
           }
         });
     }
-    this.setState({ availableCenters: _data, is_loading: false });
+    if (_data.length === 0) {
+      this.setState({ is_data_not_available: true, is_loading: false });
+    } else {
+      this.setState({ availableCenters: _data, is_loading: false });
+    }
   };
   _getDataByDistrict = async () => {
     let _data = [];
@@ -192,8 +211,6 @@ class Dashboard extends React.Component {
                         pincode: center["pincode"],
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
-                        vaccine:
-                          session["vaccine"] !== "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
@@ -204,7 +221,11 @@ class Dashboard extends React.Component {
           }
         });
     }
-    this.setState({ availableCenters: _data, is_loading: false });
+    if (_data.length === 0) {
+      this.setState({ is_data_not_available: true, is_loading: false });
+    } else {
+      this.setState({ availableCenters: _data, is_loading: false });
+    }
   };
   render() {
     const {
@@ -217,6 +238,7 @@ class Dashboard extends React.Component {
       districts,
       availableCenters,
       is_loading,
+      is_data_not_available,
     } = this.state;
     console.log("state", this.state);
     return (
@@ -413,7 +435,6 @@ class Dashboard extends React.Component {
                             Available Capacity
                           </TableCell>
                           <TableCell align="center">Fee Type</TableCell>
-                          <TableCell align="center">Vaccine</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -435,14 +456,13 @@ class Dashboard extends React.Component {
                               <TableCell align="center">
                                 {row.fee_type}
                               </TableCell>
-                              <TableCell align="center">
-                                {row.vaccine}
-                              </TableCell>
                             </TableRow>
                           ))}
                       </TableBody>
                     </Table>
                   </TableContainer>
+                ) : is_data_not_available ? (
+                  <Box>No Data Found</Box>
                 ) : null}
                 {is_loading ? <CircularProgress disableShrink /> : null}
               </Grid>
