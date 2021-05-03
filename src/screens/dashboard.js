@@ -2,7 +2,16 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import "./style.css";
-import { Box, Button, Grid, TextField } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+} from "@material-ui/core";
 import axios from "axios";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -16,6 +25,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 import moment from "moment";
 
@@ -467,6 +477,45 @@ class Dashboard extends React.Component {
                 {is_loading ? <CircularProgress disableShrink /> : null}
               </Grid>
             </Grid>
+          </Grid>
+        </Container>
+        <Container maxWidth="md" component="main" style={{ marginTop: 50 }}>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h6">Important Points : - </Typography>
+            <div>
+              <List dense={true}>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary=" This is not an official application. However, the data is pulled from official sources." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="You can see slots for the next 31 days." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="There might be minor inconsistencies while comparing with official site, esp. when number of available doses is < 10." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="This portal currently only helps to view available slot and doesn’t help book slots. You can book slots on the official site." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Slots are getting regularly updated across states. So keep checking at regular intervals!" />
+                </ListItem>
+              </List>
+            </div>
           </Grid>
         </Container>
       </React.Fragment>
