@@ -462,7 +462,7 @@ class Dashboard extends React.Component {
                     </Table>
                   </TableContainer>
                 ) : is_data_not_available ? (
-                  <Box>No Data Found</Box>
+                  <Box>No Slots Available</Box>
                 ) : null}
                 {is_loading ? <CircularProgress disableShrink /> : null}
               </Grid>
