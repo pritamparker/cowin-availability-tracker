@@ -62,8 +62,13 @@ const useStyles = makeStyles((theme) => ({
 
 const footers = [
   {
-    title: "Company",
-    description: [{ name: "Contact us", url: "mailto::support@eloop.dev" }],
+    title: "About Us",
+    description: [
+      {
+        name: "Instagram",
+        url: "https://www.instagram.com/p/COZixaBH3UJ/?igshid=7mnbz19bum7v",
+      },
+    ],
   },
   {
     title: "Code",
