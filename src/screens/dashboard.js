@@ -261,7 +261,7 @@ class Dashboard extends React.Component {
             color="textSecondary"
             component="p"
           >
-            Serach By Pin Code / District
+            Search By Pin Code / District
           </Typography>
         </Container>
         <Container maxWidth="md" component="main">
