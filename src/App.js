@@ -62,12 +62,22 @@ const useStyles = makeStyles((theme) => ({
 
 const footers = [
   {
-    title: "Company",
-    description: [{ name: "Contact us", url: "mailto::support@eloop.dev" }],
+    title: "About Us",
+    description: [
+      {
+        name: "Instagram",
+        url: "https://www.instagram.com/p/COZixaBH3UJ/?igshid=7mnbz19bum7v",
+      },
+    ],
   },
   {
     title: "Code",
-    description: [{ name: "Github", url: "https://www.google.com" }],
+    description: [
+      {
+        name: "Github",
+        url: "https://github.com/pritamparker/cowin-availability-tracker",
+      },
+    ],
   },
   {
     title: "Resources",
@@ -106,10 +116,18 @@ export default function Pricing() {
             noWrap
             className={classes.toolbarTitle}
           >
-            Covid Vaccine Availiblity
+            Covid Vaccine Availability
           </Typography>
           <Button variant="contained" color="primary">
-            Github
+            <Link
+              href="https://github.com/pritamparker/cowin-availability-tracker"
+              variant="subtitle1"
+              color="textSecondary"
+              target="blank"
+              style={{ color: "white", textTransform: "initial" }}
+            >
+              Github
+            </Link>
           </Button>
         </Toolbar>
       </AppBar>
