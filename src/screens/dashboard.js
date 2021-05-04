@@ -92,13 +92,37 @@ class Dashboard extends React.Component {
         this.setState({ districts: response.districts });
       });
   };
-  _getDataByPinLoader = () => {
+  _getDataByPinLoader = async () => {
+    
+    // check pin_code is correct or not
+    const checkPinCode = async (pin_code, callback) =>{
+      if(!pin_code){
+        return callback(false)
+      }
+      const url = `https://api.postalpincode.in/pincode/${pin_code}`;
+      await axios.get(url)
+      .then((res)=>{
+        if(res.data[0].Status==='Success'){
+          callback(true);
+        } else{
+          callback(false) 
+        }
+      });
+    }
+    let pinCode = true;
+    this.setState({is_loading:true, availableCenters: []});
+    await checkPinCode(this.state.pin_code, (val)=>{
+      pinCode = val;
+    })
+    console.log(pinCode)
     if (
+      !pinCode ||
       this.state.pin_code == "" ||
       this.state.pin_code == undefined ||
       this.state.pin_code == null
     ) {
       alert("Please Enter Valid Pin Code ");
+      this.setState({is_loading:false});
     } else if (
       this.state.age == "" ||
       this.state.age == undefined ||
@@ -221,7 +245,7 @@ class Dashboard extends React.Component {
     console.log("state", this.state);
     return (
       <React.Fragment>
-        <Container maxWidth="md" component="main" className="heroContent">
+        <Container maxWidth="md" component="main" className="heroContent"> 
           <Typography
             component="h1"
             variant="h3"
