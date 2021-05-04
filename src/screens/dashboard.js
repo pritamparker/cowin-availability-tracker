@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Grid,
+  Link,
   List,
   ListItem,
   ListItemIcon,
@@ -104,28 +105,26 @@ class Dashboard extends React.Component {
       });
   };
   _getDataByPinLoader = async () => {
-    
     // check pin_code is correct or not
-    const checkPinCode = async (pin_code, callback) =>{
-      if(!pin_code){
-        return callback(false)
+    const checkPinCode = async (pin_code, callback) => {
+      if (!pin_code) {
+        return callback(false);
       }
       const url = `https://api.postalpincode.in/pincode/${pin_code}`;
-      await axios.get(url)
-      .then((res)=>{
-        if(res.data[0].Status==='Success'){
+      await axios.get(url).then((res) => {
+        if (res.data[0].Status === "Success") {
           callback(true);
-        } else{
-          callback(false) 
+        } else {
+          callback(false);
         }
       });
-    }
+    };
     let pinCode = true;
-    this.setState({is_loading:true, availableCenters: []});
-    await checkPinCode(this.state.pin_code, (val)=>{
+    this.setState({ is_loading: true, availableCenters: [] });
+    await checkPinCode(this.state.pin_code, (val) => {
       pinCode = val;
-    })
-    console.log(pinCode)
+    });
+    console.log(pinCode);
     if (
       !pinCode ||
       this.state.pin_code === "" ||
@@ -133,7 +132,7 @@ class Dashboard extends React.Component {
       this.state.pin_code === null
     ) {
       alert("Please Enter Valid Pin Code ");
-      this.setState({is_loading:false});
+      this.setState({ is_loading: false });
     } else if (
       this.state.age === "" ||
       this.state.age === undefined ||
@@ -245,7 +244,8 @@ class Dashboard extends React.Component {
                         pincode: center["pincode"],
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
-                        vaccine: session["vaccine"] !== "" ? session["vaccine"] : "",
+                        vaccine:
+                          session["vaccine"] !== "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
@@ -278,7 +278,7 @@ class Dashboard extends React.Component {
     console.log("state", this.state);
     return (
       <React.Fragment>
-        <Container maxWidth="md" component="main" className="heroContent"> 
+        <Container maxWidth="md" component="main" className="heroContent">
           <Typography
             component="h1"
             variant="h3"
@@ -471,6 +471,7 @@ class Dashboard extends React.Component {
                           </TableCell>
                           <TableCell align="center">Fee Type</TableCell>
                           <TableCell align="center">Vaccine</TableCell>
+                          <TableCell align="center">Action</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -494,6 +495,22 @@ class Dashboard extends React.Component {
                               </TableCell>
                               <TableCell align="center">
                                 {row.vaccine}
+                              </TableCell>
+                              <TableCell align="center">
+                                <Button variant="contained" color="default">
+                                  <Link
+                                    href="https://selfregistration.cowin.gov.in/"
+                                    variant="subtitle1"
+                                    color="textSecondary"
+                                    target="blank"
+                                    style={{
+                                      color: "black",
+                                      textTransform: "initial",
+                                    }}
+                                  >
+                                    Book
+                                  </Link>
+                                </Button>
                               </TableCell>
                             </TableRow>
                           ))}
