@@ -245,6 +245,7 @@ class Dashboard extends React.Component {
                         pincode: center["pincode"],
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
+                        vaccine: session["vaccine"] !== "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
