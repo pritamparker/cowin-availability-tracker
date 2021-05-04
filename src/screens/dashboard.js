@@ -2,7 +2,16 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import "./style.css";
-import { Box, Button, Grid, TextField } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+} from "@material-ui/core";
 import axios from "axios";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -16,6 +25,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 import moment from "moment";
 
@@ -32,6 +42,7 @@ class Dashboard extends React.Component {
       selectedDistrict: "",
       availableCenters: [],
       is_loading: false,
+      is_data_not_available: false,
     };
 
     this.dateArray = [];
@@ -117,47 +128,61 @@ class Dashboard extends React.Component {
     console.log(pinCode)
     if (
       !pinCode ||
-      this.state.pin_code == "" ||
-      this.state.pin_code == undefined ||
-      this.state.pin_code == null
+      this.state.pin_code === "" ||
+      this.state.pin_code === undefined ||
+      this.state.pin_code === null
     ) {
       alert("Please Enter Valid Pin Code ");
       this.setState({is_loading:false});
     } else if (
-      this.state.age == "" ||
-      this.state.age == undefined ||
-      this.state.age == null
+      this.state.age === "" ||
+      this.state.age === undefined ||
+      this.state.age === null
     ) {
       alert("Please Enter Valid Age");
     } else {
-      this.setState({ is_loading: true, availableCenters: [] }, () => {
-        this._getDataByPin();
-      });
+      this.setState(
+        {
+          is_loading: true,
+          availableCenters: [],
+          is_data_not_available: false,
+        },
+        () => {
+          this._getDataByPin();
+        }
+      );
     }
   };
   _getDataByDistrictLoader = () => {
     if (
-      this.state.selectedState == "" ||
-      this.state.selectedState == undefined ||
-      this.state.selectedState == null
+      this.state.selectedState === "" ||
+      this.state.selectedState === undefined ||
+      this.state.selectedState === null
     ) {
       alert("Please Choose State");
     } else if (
-      this.state.selectedDistrict == "" ||
-      this.state.selectedDistrict == undefined ||
-      this.state.selectedDistrict == null
+      this.state.selectedDistrict === "" ||
+      this.state.selectedDistrict === undefined ||
+      this.state.selectedDistrict === null
     ) {
       alert("Please Choose District");
     } else if (
-      this.state.age == "" ||
-      this.state.age == undefined ||
-      this.state.age == null
+      this.state.age === "" ||
+      this.state.age === undefined ||
+      this.state.age === null
     ) {
       alert("Please Enter Valid Age");
     } else {
-      this.setState({ is_loading: true, availableCenters: [] }, () => {
-        this._getDataByDistrict();
-      });
+      this.setState(
+        {
+          is_loading: true,
+          availableCenters: [],
+          is_data_not_available: false,
+        },
+        () => {
+          this._getDataByDistrict();
+        }
+      );
     }
   };
   _getDataByPin = async () => {
@@ -182,7 +207,7 @@ class Dashboard extends React.Component {
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
                         vaccine:
-                          session["vaccine"] != "" ? session["vaccine"] : "",
+                          session["vaccine"] !== "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
@@ -193,7 +218,11 @@ class Dashboard extends React.Component {
           }
         });
     }
-    this.setState({ availableCenters: _data, is_loading: false });
+    if (_data.length === 0) {
+      this.setState({ is_data_not_available: true, is_loading: false });
+    } else {
+      this.setState({ availableCenters: _data, is_loading: false });
+    }
   };
   _getDataByDistrict = async () => {
     let _data = [];
@@ -216,8 +245,6 @@ class Dashboard extends React.Component {
                         pincode: center["pincode"],
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
-                        vaccine:
-                          session["vaccine"] != "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
@@ -228,7 +255,11 @@ class Dashboard extends React.Component {
           }
         });
     }
-    this.setState({ availableCenters: _data, is_loading: false });
+    if (_data.length === 0) {
+      this.setState({ is_data_not_available: true, is_loading: false });
+    } else {
+      this.setState({ availableCenters: _data, is_loading: false });
+    }
   };
   render() {
     const {
@@ -241,6 +272,7 @@ class Dashboard extends React.Component {
       districts,
       availableCenters,
       is_loading,
+      is_data_not_available,
     } = this.state;
     console.log("state", this.state);
     return (
@@ -254,7 +286,7 @@ class Dashboard extends React.Component {
             gutterBottom
           >
             <span style={{ color: "green" }}>
-              Search for Vaccine Availiblity
+              Search for Vaccine Availability
             </span>
           </Typography>
           <Typography
@@ -263,7 +295,7 @@ class Dashboard extends React.Component {
             color="textSecondary"
             component="p"
           >
-            Serach By Pin Code / District
+            Search By Pin Code / District
           </Typography>
         </Container>
         <Container maxWidth="md" component="main">
@@ -437,7 +469,6 @@ class Dashboard extends React.Component {
                             Available Capacity
                           </TableCell>
                           <TableCell align="center">Fee Type</TableCell>
-                          <TableCell align="center">Vaccine</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -459,18 +490,56 @@ class Dashboard extends React.Component {
                               <TableCell align="center">
                                 {row.fee_type}
                               </TableCell>
-                              <TableCell align="center">
-                                {row.vaccine}
-                              </TableCell>
                             </TableRow>
                           ))}
                       </TableBody>
                     </Table>
                   </TableContainer>
+                ) : is_data_not_available ? (
+                  <Box>No Slots Available for Next 30 Days</Box>
                 ) : null}
                 {is_loading ? <CircularProgress disableShrink /> : null}
               </Grid>
             </Grid>
+          </Grid>
+        </Container>
+        <Container maxWidth="md" component="main" style={{ marginTop: 50 }}>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h6">Important Points : - </Typography>
+            <div>
+              <List dense={true}>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary=" This is not an official application. However, the data is pulled from official sources." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="You can see slots for the next 31 days." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="There might be minor inconsistencies while comparing with official site, esp. when number of available doses is < 10." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="This portal currently only helps to view available slot and doesn’t help book slots. You can book slots on the official site." />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <ArrowForwardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Slots are getting regularly updated across states. So keep checking at regular intervals!" />
+                </ListItem>
+              </List>
+            </div>
           </Grid>
         </Container>
       </React.Fragment>
