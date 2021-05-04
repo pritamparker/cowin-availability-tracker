@@ -245,6 +245,7 @@ class Dashboard extends React.Component {
                         pincode: center["pincode"],
                         fee_type: center["fee_type"],
                         available_capacity: session["available_capacity"],
+                        vaccine: session["vaccine"] !== "" ? session["vaccine"] : "",
                       };
                       _data.push(availableCenter);
                     }
@@ -469,6 +470,7 @@ class Dashboard extends React.Component {
                             Available Capacity
                           </TableCell>
                           <TableCell align="center">Fee Type</TableCell>
+                          <TableCell align="center">Vaccine</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -489,6 +491,9 @@ class Dashboard extends React.Component {
                               </TableCell>
                               <TableCell align="center">
                                 {row.fee_type}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.vaccine}
                               </TableCell>
                             </TableRow>
                           ))}
