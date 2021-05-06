@@ -1,4 +1,5 @@
 import React from "react";
+import './App.css';
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,17 +11,41 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Dashboard from "./screens/dashboard";
+import IconButton from '@material-ui/core/IconButton';
+import { grey } from '@material-ui/core/colors';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import { render } from "@testing-library/react";
+import ToggleDarkLightMode from './components/dark_light'
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ffffff',
+      main: '#f5f5f5',
+      dark: '#c2c2c2',
+      contrastText: '#000',
+    },
+  },
+});
+
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+      <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://eloop.dev/" target="blank">
         eloop.dev solutions
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
-    </Typography>
+    </Typography>  
   );
 }
 
@@ -97,6 +122,7 @@ const footers = [
   },
 ];
 
+
 export default function Pricing() {
   const classes = useStyles();
 
@@ -118,17 +144,20 @@ export default function Pricing() {
           >
             Covid Vaccine Availability
           </Typography>
-          <Button variant="contained" color="primary">
+          <IconButton component="span" variant="contained" className="headerIcon">
             <Link
               href="https://github.com/pritamparker/cowin-availability-tracker"
               variant="subtitle1"
               color="textSecondary"
               target="blank"
-              style={{ color: "white", textTransform: "initial" }}
-            >
-              Github
+            >              
+              <GitHubIcon style={{ color: grey[800] }}/>
             </Link>
-          </Button>
+          </IconButton> 
+
+          {/* toggle_dark_light_component */}
+          <ToggleDarkLightMode/>
+
         </Toolbar>
       </AppBar>
       {/* Start Dashboard */}
