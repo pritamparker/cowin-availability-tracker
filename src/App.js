@@ -7,33 +7,19 @@ import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Dashboard from "./screens/dashboard";
 import IconButton from '@material-ui/core/IconButton';
-import { grey } from '@material-ui/core/colors';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import { render } from "@testing-library/react";
-import ToggleDarkLightMode from './components/dark_light'
 import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { useState } from 'react';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ffffff',
-      main: '#f5f5f5',
-      dark: '#c2c2c2',
-      contrastText: '#000',
-    },
-  },
-});
 
 
 function Copyright() {
@@ -122,12 +108,41 @@ const footers = [
   },
 ];
 
+const themeObject = createMuiTheme();
+
+const ChangeThemeMode = ()=>{
+  let [theme, setTheme] = useState(themeObject);
+  let {palette:{type}} = theme;
+  const localTheme = localStorage.getItem('theme');
+  
+  const toggleThemeBtn = ()=>{
+    type = type === 'light' ? 'dark' : 'light';
+    const updatedTheme = createMuiTheme({
+      palette:{
+        type: type
+      }
+    });
+    localStorage.setItem('theme', type);
+    setTheme(updatedTheme);
+  }
+  if(localTheme){
+    type = localTheme;
+    theme = createMuiTheme({
+      palette:{
+        type:type
+      }
+    })
+  }
+  return [theme, toggleThemeBtn, type];
+}
 
 export default function Pricing() {
   const classes = useStyles();
-
+  const [theme, toggleThemeBtn, type]=ChangeThemeMode();
+  const themeUpgraded = createMuiTheme(theme);
   return (
     <React.Fragment>
+      <ThemeProvider theme={themeUpgraded}>
       <CssBaseline />
       <AppBar
         position="static"
@@ -151,15 +166,23 @@ export default function Pricing() {
               color="textSecondary"
               target="blank"
             >              
-              <GitHubIcon style={{ color: grey[800] }}/>
+              <GitHubIcon color="primary"/>
             </Link>
           </IconButton> 
 
           {/* toggle_dark_light_component */}
-          <ToggleDarkLightMode/>
+          <IconButton onClick={toggleThemeBtn}  component="span" variant="contained" className="headerIcon">
+            <Link href="#">
+                {type==='light'? <Brightness4Icon color="primary"/> : <Brightness7Icon color="primary"/>}
+              </Link>
+        </IconButton>
+          
+          
+        
 
         </Toolbar>
       </AppBar>
+
       {/* Start Dashboard */}
       <Dashboard />
       {/* End Dashboard */}
@@ -194,6 +217,7 @@ export default function Pricing() {
         </Box>
       </Container>
       {/* End footer */}
+      </ThemeProvider>
     </React.Fragment>
   );
 }

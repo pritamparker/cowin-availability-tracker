@@ -532,31 +532,31 @@ class Dashboard extends React.Component {
               <List dense={true}>
                 <ListItem>
                   <ListItemIcon>
-                    <ArrowForwardIcon />
+                    <ArrowForwardIcon color="primary"/>
                   </ListItemIcon>
                   <ListItemText primary=" This is not an official application. However, the data is pulled from official sources." />
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <ArrowForwardIcon />
+                    <ArrowForwardIcon color="primary"/>
                   </ListItemIcon>
                   <ListItemText primary="You can see slots for the next 31 days." />
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <ArrowForwardIcon />
+                    <ArrowForwardIcon color="primary"/>
                   </ListItemIcon>
                   <ListItemText primary="There might be minor inconsistencies while comparing with official site, esp. when number of available doses is < 10." />
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <ArrowForwardIcon />
+                    <ArrowForwardIcon color="primary"/>
                   </ListItemIcon>
                   <ListItemText primary="This portal currently only helps to view available slot and doesn’t help book slots. You can book slots on the official site." />
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <ArrowForwardIcon />
+                    <ArrowForwardIcon color="primary"/>
                   </ListItemIcon>
                   <ListItemText primary="Slots are getting regularly updated across states. So keep checking at regular intervals!" />
                 </ListItem>
