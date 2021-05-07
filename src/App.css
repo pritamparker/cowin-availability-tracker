@@ -28,6 +28,18 @@
   color: #61dafb;
 }
 
+.headerIcon{
+  margin: 0  !important;
+  padding: 5px !important;
+}
+
+.ok{
+  background-color: #002884;
+  color: #eeeeee;
+}
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

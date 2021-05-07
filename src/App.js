@@ -1,6 +1,6 @@
 import React from "react";
+import './App.css';
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,17 +10,26 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Dashboard from "./screens/dashboard";
+import IconButton from '@material-ui/core/IconButton';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { useState } from 'react';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+
+
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+      <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://eloop.dev/" target="blank">
         eloop.dev solutions
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
-    </Typography>
+    </Typography>  
   );
 }
 
@@ -97,11 +106,41 @@ const footers = [
   },
 ];
 
+const themeObject = createMuiTheme();
+
+const ChangeThemeMode = ()=>{
+  let [theme, setTheme] = useState(themeObject);
+  let {palette:{type}} = theme;
+  const localTheme = localStorage.getItem('theme');
+  
+  const toggleThemeBtn = ()=>{
+    type = type === 'light' ? 'dark' : 'light';
+    const updatedTheme = createMuiTheme({
+      palette:{
+        type: type
+      }
+    });
+    localStorage.setItem('theme', type);
+    setTheme(updatedTheme);
+  }
+  if(localTheme){
+    type = localTheme;
+    theme = createMuiTheme({
+      palette:{
+        type:type
+      }
+    })
+  }
+  return [theme, toggleThemeBtn, type];
+}
+
 export default function Pricing() {
   const classes = useStyles();
-
+  const [theme, toggleThemeBtn, type]=ChangeThemeMode();
+  const themeUpgraded = createMuiTheme(theme);
   return (
     <React.Fragment>
+      <ThemeProvider theme={themeUpgraded}>
       <CssBaseline />
       <AppBar
         position="static"
@@ -118,19 +157,30 @@ export default function Pricing() {
           >
             Covid Vaccine Availability
           </Typography>
-          <Button variant="contained" color="primary">
+          <IconButton component="span" variant="contained" className="headerIcon">
             <Link
               href="https://github.com/pritamparker/cowin-availability-tracker"
               variant="subtitle1"
               color="textSecondary"
               target="blank"
-              style={{ color: "white", textTransform: "initial" }}
-            >
-              Github
+            >              
+              <GitHubIcon color="primary"/>
             </Link>
-          </Button>
+          </IconButton> 
+
+          {/* toggle_dark_light_component */}
+          <IconButton onClick={toggleThemeBtn}  component="span" variant="contained" className="headerIcon">
+            <Link href="#">
+                {type==='light'? <Brightness4Icon color="primary"/> : <Brightness7Icon color="primary"/>}
+              </Link>
+        </IconButton>
+          
+          
+        
+
         </Toolbar>
       </AppBar>
+
       {/* Start Dashboard */}
       <Dashboard />
       {/* End Dashboard */}
@@ -165,6 +215,7 @@ export default function Pricing() {
         </Box>
       </Container>
       {/* End footer */}
+      </ThemeProvider>
     </React.Fragment>
   );
 }
